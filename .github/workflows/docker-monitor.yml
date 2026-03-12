@@ -28,11 +28,32 @@ jobs:
         echo "Esperando 6 minutos antes de detener los contenedores"
         sleep 360
 
-    - name: Stop containers
+- name: Stop containers
       run: |
         for i in {1..4}; do
           docker stop container-$i || true
           docker rm container-$i || true
+        done
+
+    - name: Start 4 new containers
+      run: |
+        for i in {1..4}; do
+          NEW_NAME="new-container-$i"
+          docker run -d --name $NEW_NAME -p 590$i:5901 -p 22$i:22 my-container
+          echo "Iniciado $NEW_NAME"
+        done
+
+    - name: Wait 6 minutes
+      run: |
+        echo "Esperando 6 minutos antes de detener los nuevos contenedores"
+        sleep 360
+
+    - name: Stop new containers
+      run: |
+        for i in {1..4}; do
+          NEW_NAME="new-container-$i"
+          docker stop $NEW_NAME || true
+          docker rm $NEW_NAME || true
         done
 
     - name: Cleanup
