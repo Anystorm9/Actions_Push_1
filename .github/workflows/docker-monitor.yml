@@ -23,12 +23,12 @@ jobs:
           docker run -d --name container-$i -p 590$i:5901 -p 22$i:22 my-container
         done
 
-    - name: Wait 6 minutes
+- name: Wait 6 minutes
       run: |
         echo "Esperando 6 minutos antes de detener los contenedores"
         sleep 360
 
-- name: Stop containers
+    - name: Stop containers
       run: |
         for i in {1..4}; do
           docker stop container-$i || true
