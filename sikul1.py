@@ -85,7 +85,7 @@ def buscar_tab():
 
         return False
 
-# ---------- VERIFICACION INICIAL TAB0 ----------
+# ---------- VERIFICACION sINICIAL TAB0 ----------
 def verificacion_inicial():
 
     print("Buscando TAB0")
@@ -121,7 +121,7 @@ def buscar_con_scroll(intentos=20):
 
     return False
 
-# ---------- CICLO PRINCIPAL ----------
+# ---------- CICLO PRIsNCIPAL ----------
 def ciclo():
 
     while True:
