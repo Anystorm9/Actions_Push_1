@@ -75,21 +75,26 @@ def click_en_imagen(match):
 
     click_humano(destino)
 
-# ---------- BUSCAR Y CLICK EN IMAGEN ----------
-def buscar_y_click_imagen():
+# ---------- BUSCAR IMAGEN ----------
+def buscar_imagen():
 
-    m = SCREEN.exists(patron,0.4)
+    m = SCREEN.exists(patron,0.5)
 
     if m:
         print("Click en imagen")
         click_en_imagen(m)
         return True
 
-    m2 = SCREEN.exists(patron0,0.4)
+    return False
 
-    if m2:
+# ---------- BUSCAR IMAGEN0 ----------
+def buscar_imagen0():
+
+    m = SCREEN.exists(patron0,0.5)
+
+    if m:
         print("Click en imagen0")
-        click_en_imagen(m2)
+        click_en_imagen(m)
         return True
 
     return False
@@ -114,7 +119,7 @@ def abrir_link():
 # ---------- BUSCAR TAB ----------
 def buscar_tab():
 
-    m = SCREEN.exists(patronx,0.5)
+    m = SCREEN.exists(patronx,1)
 
     if m:
         print("Click en TAB")
@@ -132,7 +137,7 @@ def buscar_tab():
 # ---------- SCROLL HUMANO ----------
 def scroll_humano():
 
-    pasos = random.randint(2,7)
+    pasos = random.randint(3,8)
 
     for i in range(pasos):
 
@@ -143,6 +148,21 @@ def scroll_humano():
         if random.random() < 0.2:
             wait(random.uniform(0.2,0.5))
 
+# ---------- BUSCAR IMAGENES CON SCROLL ----------
+def buscar_con_scroll(funcion_busqueda, intentos=6):
+
+    for i in range(intentos):
+
+        encontrado = funcion_busqueda()
+
+        if encontrado:
+            return True
+
+        scroll_humano()
+        espera(0.5,1.2)
+
+    return False
+
 # ---------- CICLO PRINCIPAL ----------
 def ciclo():
 
@@ -150,17 +170,29 @@ def ciclo():
 
         pausa_larga()
 
-        encontrado = buscar_y_click_imagen()
+        # PASO 1: buscar imagen
+        encontrado = buscar_con_scroll(buscar_imagen,5)
 
         if encontrado:
 
             espera(1,2)
 
+            # PASO 2: buscar imagen0
+            encontrado2 = buscar_con_scroll(buscar_imagen0,6)
+
+            if encontrado2:
+
+                espera(1,2)
+
+                scroll_humano()
+
+            else:
+
+                print("imagen0 no encontrada")
+
         else:
 
-            scroll_humano()
-
-            espera(0.5,1.5)
+            print("No hay imagen, buscando TAB")
 
             buscar_tab()
 
