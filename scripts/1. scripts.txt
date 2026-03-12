@@ -1,0 +1,971 @@
+﻿import random
+from sikuli import *
+
+imagen = "imagen.png"
+patron = Pattern(imagen).similar(0.9)
+
+imagen0 = "imagen0.png"
+patron0 = Pattern(imagen0).similar(0.9)
+
+def espera_aleatoria(min_seg=1, max_seg=10):
+    wait(random.uniform(min_seg, max_seg))
+
+
+# bajar hasta encontrar imagen usando espera aleatoria
+def bajar_hasta_encontrar(patron):
+    while not exists(patron, 0.3):
+        type(Key.DOWN)
+        espera_aleatoria(1, 10)  # espera entre 1 y 10 segundos
+
+    print("Imagen encontrada")
+    click(patron)
+
+
+# --------- SCRIPT ---------
+
+# buscar primera imagen
+bajar_hasta_encontrar(patron)
+
+# esperar aleatorio
+espera_aleatoria(1, 10)
+
+# presionar ALT + 1
+type("1", Key.ALT)
+
+# buscar segunda imagen
+bajar_hasta_encontrar(patron0)
+
+
+
+//////////////////////////////////////////////////////////////////////////////
+import random
+from sikuli import *
+
+imagen = "imagen.png"
+patron = Pattern(imagen).similar(0.9)
+
+imagen0 = "imagen0.png"
+patron0 = Pattern(imagen0).similar(0.9)
+
+imagenx = "imagenx.png"
+patronx = Pattern(imagenx).similar(0.9)
+
+# región donde se harán los clicks aleatorios
+region_click = Region(300,200,800,600)
+
+def espera_aleatoria(min_seg=1, max_seg=10):
+    wait(random.uniform(min_seg, max_seg))
+
+def click_aleatorio():
+    p = region_click.getRandomPoint()
+    click(p)
+
+def bajar_hasta_encontrar(patron_buscar):
+    while not exists(patron_buscar, 0.3):
+
+        # click aleatorio
+        click_aleatorio()
+
+        # buscar patronx
+        if exists(patronx, 1):
+            print("patronx encontrado")
+            click(patronx)
+
+        # otro click aleatorio
+        click_aleatorio()
+
+        # bajar
+        type(Key.DOWN)
+
+        espera_aleatoria(1,10)
+
+    print("Imagen encontrada")
+    click(patron_buscar)
+
+
+# --------- SCRIPT ---------
+
+# buscar primera imagen
+bajar_hasta_encontrar(patron)
+
+espera_aleatoria(1,10)
+
+# ALT + 1
+type("1", Key.ALT)
+
+# buscar segunda imagen
+bajar_hasta_encontrar(patron0)
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+import random
+from sikuli import *
+
+imagen = "imagen.png"
+patron = Pattern(imagen).similar(0.9)
+
+imagen0 = "imagen0.png"
+patron0 = Pattern(imagen0).similar(0.9)
+
+imagenx = "imagenx.png"
+patronx = Pattern(imagenx).similar(0.9)
+
+# región donde ocurren los clicks aleatorios
+region_click = Region(300,200,800,600)
+
+def espera_aleatoria(min_seg=1, max_seg=10):
+    wait(random.uniform(min_seg, max_seg))
+
+def click_aleatorio():
+    p = region_click.getRandomPoint()
+    hover(p)   # mover mouse primero
+    wait(random.uniform(0.1,0.4))
+    click(p)
+
+def scroll_humano():
+    veces = random.randint(1,3)  # a veces baja varias veces
+    for i in range(veces):
+        type(Key.DOWN)
+        wait(random.uniform(0.1,0.5))
+
+def reaccion_patronx():
+    if exists(patronx, 0.5):
+        print("patronx encontrado")
+        click(patronx)
+        espera_aleatoria(1,3)
+
+def bajar_hasta_encontrar(patron_buscar, max_intentos=200):
+
+    intentos = 0
+
+    while not exists(patron_buscar, 0.3):
+
+        # seguridad anti loop infinito
+        if intentos > max_intentos:
+            print("Límite de intentos alcanzado")
+            break
+
+        # prioridad a patronx
+        reaccion_patronx()
+
+        # click aleatorio
+        click_aleatorio()
+
+        # buscar otra vez patronx
+        reaccion_patronx()
+
+        # segundo click aleatorio
+        click_aleatorio()
+
+        # scroll humano
+        scroll_humano()
+
+        espera_aleatoria(1,5)
+
+        intentos += 1
+
+    if exists(patron_buscar):
+        print("Imagen encontrada")
+        click(patron_buscar)
+
+
+# -------- SCRIPT --------
+
+# buscar primera imagen
+bajar_hasta_encontrar(patron)
+
+espera_aleatoria(2,10)
+
+# ALT + 1
+type("1", Key.ALT)
+
+espera_aleatoria(2,6)
+
+# buscar segunda imagen
+bajar_hasta_encontrar(patron0)
+
+
+✅ Evita loops infinitos (límite de intentos)
+✅ Scroll más humano (a veces baja varias veces)
+✅ Prioridad a patronx (reacciona rápido si aparece)
+✅ Movimientos y clicks aleatorio
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+import random
+from sikuli import *
+
+imagen = "imagen.png"
+patron = Pattern(imagen).similar(0.9)
+
+imagen0 = "imagen0.png"
+patron0 = Pattern(imagen0).similar(0.9)
+
+imagenx = "imagenx.png"
+patronx = Pattern(imagenx).similar(0.9)
+
+# región de interacción
+region_click = Region(300,200,800,600)
+
+
+def espera_aleatoria(min_seg=1, max_seg=10):
+    wait(random.uniform(min_seg, max_seg))
+
+
+def mover_mouse_humano(punto):
+    hover(punto)
+    wait(random.uniform(0.1,0.4))
+
+
+def click_aleatorio():
+    p = region_click.getRandomPoint()
+    mover_mouse_humano(p)
+
+    # a veces doble click
+    if random.random() < 0.15:
+        doubleClick(p)
+    else:
+        click(p)
+
+
+def scroll_humano():
+    veces = random.randint(1,4)
+
+    for i in range(veces):
+        type(Key.DOWN)
+        wait(random.uniform(0.08,0.35))
+
+
+def reaccion_patronx():
+    if exists(patronx, 0.5):
+        print("patronx detectado")
+        click(patronx)
+        espera_aleatoria(1,3)
+
+
+def pausa_humana():
+    # pausas ocasionales más largas
+    if random.random() < 0.1:
+        wait(random.uniform(3,8))
+
+
+def bajar_hasta_encontrar(patron_buscar, max_intentos=250):
+
+    intentos = 0
+
+    while not exists(patron_buscar, 0.3):
+
+        if intentos >= max_intentos:
+            print("Máximo de intentos alcanzado")
+            break
+
+        # reaccion rápida a eventos
+        reaccion_patronx()
+
+        # click humano
+        click_aleatorio()
+
+        reaccion_patronx()
+
+        # segundo click
+        if random.random() < 0.7:
+            click_aleatorio()
+
+        # scroll humano
+        scroll_humano()
+
+        pausa_humana()
+
+        espera_aleatoria(1,5)
+
+        intentos += 1
+
+    if exists(patron_buscar):
+        print("Imagen encontrada")
+        click(patron_buscar)
+
+
+# -------- SCRIPT --------
+
+bajar_hasta_encontrar(patron)
+
+espera_aleatoria(2,10)
+
+type("1", Key.ALT)
+
+espera_aleatoria(2,6)
+
+bajar_hasta_encontrar(patron0)
+
+✅ Movimiento de mouse natural
+✅ Clicks aleatorios inteligentes
+✅ Scroll variable
+✅ prioridad a patronx
+✅ seguridad anti-loop
+✅ pausas humanas irregulares
+/////////////////////////////////////////////////////////////////////////////////////////////
+
+import random
+from sikuli import *
+
+imagen = "imagen.png"
+patron = Pattern(imagen).similar(0.9)
+
+imagen0 = "imagen0.png"
+patron0 = Pattern(imagen0).similar(0.9)
+
+imagenx = "imagenx.png"
+patronx = Pattern(imagenx).similar(0.9)
+
+region_click = Region(300,200,800,600)
+
+def espera_aleatoria(min_seg=1, max_seg=10):
+    wait(random.uniform(min_seg, max_seg))
+
+
+def mover_mouse_humano(p):
+    hover(p)
+    wait(random.uniform(0.1,0.3))
+
+
+def click_aleatorio():
+    p = region_click.getRandomPoint()
+    mover_mouse_humano(p)
+
+    if random.random() < 0.15:
+        doubleClick(p)
+    else:
+        click(p)
+
+
+def click_cerca(patron):
+    m = exists(patron)
+    if m:
+        r = m.nearby(120)  # zona alrededor de la imagen
+        p = r.getRandomPoint()
+        mover_mouse_humano(p)
+        click(p)
+
+
+def scroll_humano():
+    veces = random.randint(1,4)
+
+    for i in range(veces):
+        type(Key.DOWN)
+        wait(random.uniform(0.1,0.35))
+
+
+def reaccion_patronx():
+    m = exists(patronx,0.5)
+    if m:
+        print("patronx detectado")
+        click(m)
+        espera_aleatoria(1,3)
+
+
+def pausa_humana():
+    if random.random() < 0.12:
+        wait(random.uniform(2,7))
+
+
+def bajar_hasta_encontrar(patron_buscar,max_intentos=300):
+
+    intentos = 0
+
+    while not exists(patron_buscar,0.3):
+
+        if intentos >= max_intentos:
+            print("Demasiados intentos")
+            break
+
+        reaccion_patronx()
+
+        click_aleatorio()
+
+        reaccion_patronx()
+
+        if random.random() < 0.6:
+            click_aleatorio()
+
+        scroll_humano()
+
+        pausa_humana()
+
+        espera_aleatoria(1,4)
+
+        intentos += 1
+
+    if exists(patron_buscar):
+        print("Imagen encontrada")
+        click_cerca(patron_buscar)
+
+
+# -------- SCRIPT --------
+
+bajar_hasta_encontrar(patron)
+
+espera_aleatoria(2,8)
+
+type("1", Key.ALT)
+
+espera_aleatoria(2,6)
+
+bajar_hasta_encontrar(patron0)
+
+✅ Scroll inteligente (si no cambia la pantalla intenta diferente)
+✅ Clicks cerca de imágenes (más natural)
+✅ Detector rápido de patronx
+✅ Evita loops infinitos
+✅ Comportamiento humano
+
+//////////////////////////////////////////////////////////////////////////////
+
+import random
+from sikuli import *
+
+imagen = "imagen.png"
+patron = Pattern(imagen).similar(0.9)
+
+imagen0 = "imagen0.png"
+patron0 = Pattern(imagen0).similar(0.9)
+
+imagenx = "imagenx.png"
+patronx = Pattern(imagenx).similar(0.9)
+
+region_click = Region(300,200,800,600)
+
+# -------- FUNCIONES --------
+
+def espera_aleatoria(min_seg=1,max_seg=10):
+    wait(random.uniform(min_seg,max_seg))
+
+
+def mover_mouse_humano(p):
+    hover(p)
+    wait(random.uniform(0.1,0.35))
+
+
+def click_aleatorio():
+    p = region_click.getRandomPoint()
+    mover_mouse_humano(p)
+
+    if random.random() < 0.15:
+        doubleClick(p)
+    else:
+        click(p)
+
+
+def click_cerca(patron):
+    m = exists(patron)
+    if m:
+        r = m.nearby(120)
+        p = r.getRandomPoint()
+        mover_mouse_humano(p)
+        click(p)
+
+
+def reaccion_patronx():
+    m = exists(patronx,0.4)
+    if m:
+        print("patronx detectado")
+        click(m)
+        espera_aleatoria(1,3)
+
+
+def scroll_humano():
+    veces = random.randint(1,4)
+
+    for i in range(veces):
+        type(Key.DOWN)
+        wait(random.uniform(0.08,0.3))
+
+
+def pausa_humana():
+    if random.random() < 0.1:
+        wait(random.uniform(2,6))
+
+
+# detectar si pantalla no cambia
+def pantalla_congelada(prev):
+    actual = capture(SCREEN)
+    if prev and prev.getFilename() == actual.getFilename():
+        return True
+    return False
+
+
+# -------- BUSQUEDA INTELIGENTE --------
+
+def bajar_hasta_encontrar(patron_buscar,max_intentos=400):
+
+    intentos = 0
+    pantalla_prev = None
+    congelada_contador = 0
+
+    while not exists(patron_buscar,0.3):
+
+        if intentos >= max_intentos:
+            print("Máximo de intentos alcanzado")
+            break
+
+        reaccion_patronx()
+
+        click_aleatorio()
+
+        reaccion_patronx()
+
+        if random.random() < 0.6:
+            click_aleatorio()
+
+        scroll_humano()
+
+        pausa_humana()
+
+        # detectar pantalla congelada
+        if pantalla_congelada(pantalla_prev):
+            congelada_contador += 1
+        else:
+            congelada_contador = 0
+
+        pantalla_prev = capture(SCREEN)
+
+        # si no cambia la pantalla → scroll fuerte
+        if congelada_contador > 3:
+            print("Pantalla sin cambios, scroll extra")
+            for i in range(6):
+                type(Key.DOWN)
+                wait(0.1)
+            congelada_contador = 0
+
+        espera_aleatoria(1,4)
+
+        intentos += 1
+
+    if exists(patron_buscar):
+        print("Imagen encontrada")
+        click_cerca(patron_buscar)
+
+
+# -------- SCRIPT --------
+
+bajar_hasta_encontrar(patron)
+
+espera_aleatoria(2,8)
+
+type("1", Key.ALT)
+
+espera_aleatoria(2,6)
+
+bajar_hasta_encontrar(patron0)
+
+✅ detección de pantalla congelada
+✅ scroll adaptativo
+✅ movimiento de mouse más humano
+✅ anti-loop fuerte
+✅ prioridad inmediata a patronx
+✅ clicks naturales cerca de imágenes
+
+
+/////////////////////////////////////////////////////////////////////////////
+import random
+from sikuli import *
+
+# ---------- IMAGENES ----------
+imagen = "imagen.png"
+patron = Pattern(imagen).similar(0.9)
+
+imagen0 = "imagen0.png"
+patron0 = Pattern(imagen0).similar(0.9)
+
+# pestaña o evento prioritario
+imagenx = "pestana.png"
+patronx = Pattern(imagenx).similar(0.9)
+
+# región donde el bot interactúa
+region_click = Region(300,200,800,600)
+
+
+# ---------- FUNCIONES BASICAS ----------
+
+def espera(min=1,max=5):
+    wait(random.uniform(min,max))
+
+
+def mover_mouse(p):
+    hover(p)
+    wait(random.uniform(0.1,0.35))
+
+
+def click_humano(p):
+
+    mover_mouse(p)
+
+    if random.random() < 0.15:
+        doubleClick(p)
+    else:
+        click(p)
+
+
+def click_aleatorio():
+
+    p = region_click.getRandomPoint()
+    click_humano(p)
+
+
+# ---------- SCROLL HUMANO ----------
+
+def scroll_humano():
+
+    veces = random.randint(1,4)
+
+    for i in range(veces):
+        type(Key.DOWN)
+        wait(random.uniform(0.08,0.3))
+
+
+# ---------- CLICK CERCA DE IMAGEN ----------
+
+def click_cerca(patron):
+
+    m = exists(patron)
+
+    if m:
+        r = m.nearby(120)
+        p = r.getRandomPoint()
+        click_humano(p)
+
+
+# ---------- EVENTO PRIORITARIO ----------
+
+def reaccion_pestana():
+
+    m = exists(patronx,0.4)
+
+    if m:
+
+        print("Pestaña detectada")
+
+        click(m)
+
+        espera(1,3)
+
+        return True
+
+    return False
+
+
+# ---------- PAUSA HUMANA ----------
+
+def pausa_humana():
+
+    if random.random() < 0.12:
+        wait(random.uniform(2,6))
+
+
+# ---------- DETECTAR PANTALLA CONGELADA ----------
+
+def pantalla_congelada(prev):
+
+    actual = capture(SCREEN)
+
+    if prev and prev.getFilename() == actual.getFilename():
+        return True
+
+    return False
+
+
+# ---------- BUSQUEDA INTELIGENTE ----------
+
+def buscar_imagen(patron_buscar,max_intentos=400):
+
+    intentos = 0
+    pantalla_prev = None
+    congelada = 0
+
+    while not exists(patron_buscar,0.3):
+
+        if intentos >= max_intentos:
+            print("demasiados intentos")
+            break
+
+        # prioridad absoluta a la pestaña
+        if reaccion_pestana():
+            continue
+
+        click_aleatorio()
+
+        if reaccion_pestana():
+            continue
+
+        if random.random() < 0.6:
+            click_aleatorio()
+
+        scroll_humano()
+
+        pausa_humana()
+
+        # detectar pantalla congelada
+        if pantalla_congelada(pantalla_prev):
+            congelada += 1
+        else:
+            congelada = 0
+
+        pantalla_prev = capture(SCREEN)
+
+        # scroll fuerte si no cambia
+        if congelada > 3:
+
+            print("scroll extra")
+
+            for i in range(6):
+                type(Key.DOWN)
+                wait(0.1)
+
+            congelada = 0
+
+        espera(1,4)
+
+        intentos += 1
+
+    if exists(patron_buscar):
+
+        print("imagen encontrada")
+
+        click_cerca(patron_buscar)
+
+
+# ---------- SCRIPT ----------
+
+buscar_imagen(patron)
+
+espera(2,8)
+
+type("1",Key.ALT)
+
+espera(2,6)
+
+buscar_imagen(patron0)
+
+✅ buscar pestañas automáticamente
+✅ reaccionar rápido a patronx (evento prioritario)
+✅ hacer scroll inteligente
+✅ evitar loops infinitos
+✅ mover el mouse como humano
+✅ hacer clicks naturales cerca de imágenes
+✅ detectar si la pantalla no cambia
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//////////////////////////////////////////////////////////////////////////////busca cualquiera 
+import random
+from sikuli import *
+
+imagen1 = Pattern("imagen.png").similar(0.9)
+imagen2 = Pattern("imagen0.png").similar(0.9)
+
+def espera():
+    wait(random.uniform(1,4))
+
+
+def scroll_humano():
+
+    veces = random.randint(1,3)
+
+    for i in range(veces):
+        type(Key.DOWN)
+        wait(random.uniform(0.1,0.4))
+
+
+def buscar_cualquiera():
+
+    while True:
+
+        m1 = exists(imagen1,0.3)
+        m2 = exists(imagen2,0.3)
+
+        if m1:
+            print("imagen1 encontrada")
+            click(m1)
+            return
+
+        if m2:
+            print("imagen2 encontrada")
+            click(m2)
+            return
+
+        scroll_humano()
+
+        espera()
+
+
+# ---------- SCRIPT ----------
+
+buscar_cualquiera()
+
+espera()
+
+type("1",Key.ALT)
+
+espera()
+
+buscar_cualquiera()
+
+////////////////////////////////////////////////////////////////////////////////// busca cualqueira con patronx pestaña
+
+import random
+from sikuli import *
+
+# -------- IMAGENES --------
+
+img1 = Pattern("imagen.png").similar(0.9)
+img2 = Pattern("imagen0.png").similar(0.9)
+
+imagenes = [img1, img2]
+
+# pestaña que queremos enfocar
+patronx = Pattern("pestana.png").similar(0.85)
+
+region_click = Region(300,200,800,600)
+
+
+# -------- FUNCIONES --------
+
+def espera(min=1,max=4):
+    wait(random.uniform(min,max))
+
+
+def mover_mouse(p):
+    hover(p)
+    wait(random.uniform(0.1,0.3))
+
+
+def click_humano(p):
+
+    mover_mouse(p)
+
+    if random.random() < 0.15:
+        doubleClick(p)
+    else:
+        click(p)
+
+
+# -------- DETECTAR Y CLICK EN PESTAÑA --------
+
+def click_pestana():
+
+    m = exists(patronx,0.3)
+
+    if m:
+        print("Pestaña encontrada → click")
+        click_humano(m)
+        espera(1,2)
+        return True
+
+    return False
+
+
+# -------- CLICK ALEATORIO --------
+
+def click_random():
+
+    p = region_click.getRandomPoint()
+
+    mover_mouse(p)
+
+    click(p)
+
+    click_pestana()
+
+
+# -------- SCROLL HUMANO --------
+
+def scroll_humano():
+
+    veces = random.randint(1,3)
+
+    for i in range(veces):
+
+        type(Key.DOWN)
+
+        wait(random.uniform(0.1,0.3))
+
+        click_pestana()
+
+
+# -------- CLICK CERCA DE IMAGEN --------
+
+def click_cerca(match):
+
+    r = match.nearby(120)
+
+    p = r.getRandomPoint()
+
+    click_humano(p)
+
+
+# -------- BUSCAR CUALQUIERA --------
+
+def buscar_imagen(max_intentos=400):
+
+    intentos = 0
+
+    while intentos < max_intentos:
+
+        # prioridad absoluta a la pestaña
+        if click_pestana():
+            continue
+
+        try:
+
+            m = findAny(imagenes)
+
+            if m:
+
+                print("Imagen encontrada")
+
+                click_cerca(m)
+
+                return
+
+        except:
+            pass
+
+
+        click_random()
+
+        if random.random() < 0.6:
+            click_random()
+
+        scroll_humano()
+
+        espera()
+
+        intentos += 1
+
+
+    print("No se encontró ninguna imagen")
+
+
+# -------- SCRIPT --------
+
+buscar_imagen()
+
+espera(2,6)
+
+type("1",Key.ALT)
+
+espera(2,5)
+
+buscar_imagen()

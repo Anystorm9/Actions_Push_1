@@ -1,0 +1,39 @@
+Claro, para conectarte al escritorio remoto (VNC) y también por SSH, sigue estas instrucciones basadas en la salida de tu terminal.
+
+Esto te dará una interfaz gráfica completa del sistema dentro del contenedor.
+
+Instala un Cliente VNC: Si aún no lo tienes, descarga e instala un cliente VNC como RealVNC Viewer o TightVNC Viewer en tu computadora local.
+
+Inicia el Túnel Local:
+
+Abre una nueva terminal en tu computadora local (no en la que está corriendo el Docker).
+Ejecuta el siguiente comando. Este comando crea un puente seguro entre tu máquina y el contenedor:
+
+cloudflared access tcp --hostname labor-miss-historical-imports.trycloudflare.com --url localhost:5901
+
+
+
+Deja esta terminal abierta. Mantendrá la conexión activa.
+Conéctate con VNC Viewer:
+
+Abre tu cliente VNC Viewer.
+En el campo para la dirección o servidor, ingresa: localhost:5901
+Cuando te pida la contraseña (password), usa: vncpass
+¡Listo! Ahora deberías ver el escritorio XFCE del contenedor, con Firefox y SikuliX ejecutándose.
+
+Esto te dará acceso a la línea de comandos dentro del contenedor.
+
+Abre una Nueva Terminal: Abre otra terminal en tu computadora local.
+
+Ejecuta el Comando de Acceso:
+
+Usa el siguiente comando con la URL de SSH que se generó. Fíjate que se usa el dominio sin https://.
+cloudflared access ssh --hostname lincoln-frequencies-calibration-roads.trycloudflare.com
+
+
+
+Ingresa las Credenciales:
+
+Cuando te pregunte por el usuario (user), escribe: root
+Cuando te pida la contraseña (password), escribe: yourpassword
+Con esto, tendrás control total de la terminal del contenedor.

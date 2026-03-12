@@ -1,0 +1,98 @@
+import random
+from sikuli import *
+
+# patrones
+img1 = Pattern("imagen.png").similar(0.88)
+img2 = Pattern("imagen0.png").similar(0.88)
+tab  = Pattern("pestana.png").similar(0.85)
+
+imagenes = [img1, img2]
+
+# regiones
+region_tabs = Region(0,0,1920,120)
+region_click = Region(300,200,800,600)
+
+def pausa(minimo=0.5,maximo=2):
+    wait(random.uniform(minimo,maximo))
+
+
+def mover_mouse_suave(destino):
+
+    origen = Env.getMouseLocation()
+    pasos = random.randint(10,18)
+
+    for i in range(pasos):
+
+        x = origen.x + (destino.x-origen.x)*i/pasos
+        y = origen.y + (destino.y-origen.y)*i/pasos
+
+        mouseMove(Location(int(x),int(y)))
+        wait(random.uniform(0.01,0.03))
+
+
+def click_natural(p):
+
+    mover_mouse_suave(p)
+    wait(random.uniform(0.05,0.2))
+
+    if random.random() < 0.1:
+        doubleClick(p)
+    else:
+        click(p)
+
+
+def scroll_variable():
+
+    pasos = random.randint(1,3)
+
+    for i in range(pasos):
+
+        type(Key.DOWN)
+        wait(random.uniform(0.1,0.3))
+
+
+def revisar_pestana():
+
+    m = region_tabs.exists(tab,0.2)
+
+    if m:
+        print("Pestaña encontrada")
+        click_natural(m)
+        pausa(1,3)
+        return True
+
+    return False
+
+
+def buscar_imagen():
+
+    while True:
+
+        if revisar_pestana():
+            continue
+
+        try:
+
+            m = findAny(imagenes)
+
+            if m:
+
+                r = m.nearby(80)
+                p = r.getRandomPoint()
+
+                click_natural(p)
+
+                print("Imagen encontrada")
+
+                return
+
+        except:
+            pass
+
+        scroll_variable()
+
+        if random.random() < 0.4:
+            p = region_click.getRandomPoint()
+            click_natural(p)
+
+        pausa(0.5,2)

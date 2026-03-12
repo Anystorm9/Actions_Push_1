@@ -1,0 +1,464 @@
+import random
+from sikuli import *
+
+# ---------- AJUSTES DE MOUSE ----------
+Settings.MoveMouseDelay = 0.3
+Settings.DelayAfterDrag = 0.2
+Settings.DelayBeforeMouseDown = 0.1
+Settings.DelayAfterMouseDown = 0.1
+
+# ---------- IMAGENES ----------
+patron = Pattern("imagen.png").similar(0.88)
+patron0 = Pattern("imagen0.png").similar(0.88)
+patronx = Pattern("tab.png").similar(0.85)
+
+# ---------- ESPERA HUMANA ----------
+def espera(a=1,b=3):
+    wait(random.uniform(a,b))
+
+# ---------- MOVIMIENTO HUMANO ----------
+def mover_mouse_humano(destino):
+
+    try:
+        actual = Env.getMouseLocation()
+    except:
+        actual = Location(500,500)
+
+    pasos = random.randint(12,20)
+
+    for i in range(pasos):
+
+        curvaX = random.uniform(-4,4)
+        curvaY = random.uniform(-4,4)
+
+        x = actual.x + (destino.x-actual.x)*i/pasos + curvaX
+        y = actual.y + (destino.y-actual.y)*i/pasos + curvaY
+
+        mouseMove(Location(int(x),int(y)))
+
+        wait(random.uniform(0.01,0.03))
+
+# ---------- CLICK HUMANO ----------
+def click_humano(p):
+
+    mover_mouse_humano(p)
+
+    wait(random.uniform(0.1,0.25))
+
+    click(p)
+
+# ---------- CLICK DENTRO DE IMAGEN ----------
+def click_en_imagen(match):
+
+    r = match
+
+    x = random.randint(r.getX()+5, r.getX()+r.getW()-5)
+    y = random.randint(r.getY()+5, r.getY()+r.getH()-5)
+
+    destino = Location(x,y)
+
+    click_humano(destino)
+
+# ---------- BUSCAR Y CLICK EN IMAGEN ----------
+def buscar_y_click_imagen():
+
+    m = SCREEN.exists(patron,0.3)
+
+    if m:
+        print("Click en imagen")
+        click_en_imagen(m)
+        return True
+
+    m2 = SCREEN.exists(patron0,0.3)
+
+    if m2:
+        print("Click en imagen0")
+        click_en_imagen(m2)
+        return True
+
+    return False
+
+# ---------- BUSCAR TAB ----------
+def buscar_tab():
+
+    m = SCREEN.exists(patronx,0.5)
+
+    if m:
+        print("Click en TAB")
+        click_humano(m.getTarget())
+        wait(random.uniform(1,2))
+        return True
+
+    return False
+
+# ---------- SCROLL HUMANO ----------
+def scroll_humano():
+
+    pasos = random.randint(3,8)
+
+    for i in range(pasos):
+        type(Key.DOWN)
+        wait(random.uniform(0.05,0.2))
+
+# ---------- CICLO PRINCIPAL ----------
+def ciclo():
+
+    while True:
+
+        # Buscar imagen o imagen0
+        encontrado = buscar_y_click_imagen()
+
+        if encontrado:
+
+            espera(1,2)
+
+        else:
+
+            # Si no encuentra imagen, bajar
+            scroll_humano()
+
+            espera(0.5,1.5)
+
+            # Intentar click en TAB
+            buscar_tab()
+
+        espera(0.5,1.5)
+
+# ---------- INICIO ----------
+ciclo()
+
+
+
+sikul0
+
+///////////////////////////////////////////////////////////////////////////////////////dos mejor mas real (el mejor)
+
+
+import random
+from sikuli import *
+
+# ---------- AJUSTES DE MOUSE ----------
+Settings.MoveMouseDelay = 0.3
+Settings.DelayAfterDrag = 0.2
+Settings.DelayBeforeMouseDown = 0.1
+Settings.DelayAfterMouseDown = 0.1
+
+# ---------- IMAGENES ----------
+patron = Pattern("imagen.png").similar(0.88)
+patron0 = Pattern("imagen0.png").similar(0.88)
+patronx = Pattern("tab.png").similar(0.85)
+
+# ---------- ESPERA HUMANA ----------
+def espera(a=1,b=3):
+    wait(random.uniform(a,b))
+
+# ---------- MICRO PAUSA HUMANA ----------
+def micro_pausa():
+
+    if random.random() < 0.15:
+        wait(random.uniform(0.4,1.2))
+
+# ---------- PAUSA LARGA OCASIONAL ----------
+def pausa_larga():
+
+    if random.random() < 0.05:
+        t = random.uniform(4,9)
+        print("Pausa humana:", t)
+        wait(t)
+
+# ---------- MOVIMIENTO HUMANO ----------
+def mover_mouse_humano(destino):
+
+    try:
+        actual = Env.getMouseLocation()
+    except:
+        actual = Location(500,500)
+
+    pasos = random.randint(15,25)
+
+    for i in range(pasos):
+
+        curvaX = random.uniform(-6,6)
+        curvaY = random.uniform(-6,6)
+
+        x = actual.x + (destino.x-actual.x)*i/pasos + curvaX
+        y = actual.y + (destino.y-actual.y)*i/pasos + curvaY
+
+        mouseMove(Location(int(x),int(y)))
+
+        wait(random.uniform(0.01,0.04))
+
+# ---------- CLICK HUMANO ----------
+def click_humano(p):
+
+    mover_mouse_humano(p)
+
+    wait(random.uniform(0.15,0.35))
+
+    click(p)
+
+    micro_pausa()
+
+# ---------- CLICK DENTRO DE IMAGEN ----------
+def click_en_imagen(match):
+
+    r = match
+
+    margen = 8
+
+    x = random.randint(r.getX()+margen, r.getX()+r.getW()-margen)
+    y = random.randint(r.getY()+margen, r.getY()+r.getH()-margen)
+
+    destino = Location(x,y)
+
+    click_humano(destino)
+
+# ---------- BUSCAR Y CLICK EN IMAGEN ----------
+def buscar_y_click_imagen():
+
+    m = SCREEN.exists(patron,0.4)
+
+    if m:
+        print("Click en imagen")
+        click_en_imagen(m)
+        return True
+
+    m2 = SCREEN.exists(patron0,0.4)
+
+    if m2:
+        print("Click en imagen0")
+        click_en_imagen(m2)
+        return True
+
+    return False
+
+# ---------- BUSCAR TAB ----------
+def buscar_tab():
+
+    m = SCREEN.exists(patronx,0.5)
+
+    if m:
+        print("Click en TAB")
+
+        click_humano(m.getTarget())
+
+        wait(random.uniform(1,2))
+
+        return True
+
+    return False
+
+# ---------- SCROLL HUMANO ----------
+def scroll_humano():
+
+    pasos = random.randint(2,7)
+
+    for i in range(pasos):
+
+        type(Key.DOWN)
+
+        wait(random.uniform(0.05,0.25))
+
+        if random.random() < 0.2:
+            wait(random.uniform(0.2,0.5))
+
+# ---------- CICLO PRINCIPAL ----------
+def ciclo():
+
+    while True:
+
+        pausa_larga()
+
+        encontrado = buscar_y_click_imagen()
+
+        if encontrado:
+
+            espera(1,2)
+
+        else:
+
+            scroll_humano()
+
+            espera(0.5,1.5)
+
+            buscar_tab()
+
+        micro_pausa()
+
+# ---------- INICIO ----------
+ciclo()
+
+
+/////////////////////////////////////////////////////////////el emjor con link si no esta
+
+
+import random
+from sikuli import *
+
+# ---------- AJUSTES DE MOUSE ----------
+Settings.MoveMouseDelay = 0.3
+Settings.DelayAfterDrag = 0.2
+Settings.DelayBeforeMouseDown = 0.1
+Settings.DelayAfterMouseDown = 0.1
+
+# ---------- IMAGENES ----------
+patron = Pattern("imagen.png").similar(0.88)
+patron0 = Pattern("imagen0.png").similar(0.88)
+patronx = Pattern("tab.png").similar(0.85)
+
+# ---------- ESPERA HUMANA ----------
+def espera(a=1,b=3):
+    wait(random.uniform(a,b))
+
+# ---------- MICRO PAUSA HUMANA ----------
+def micro_pausa():
+    if random.random() < 0.15:
+        wait(random.uniform(0.4,1.2))
+
+# ---------- PAUSA LARGA OCASIONAL ----------
+def pausa_larga():
+    if random.random() < 0.05:
+        t = random.uniform(4,9)
+        print("Pausa humana:", t)
+        wait(t)
+
+# ---------- MOVIMIENTO HUMANO ----------
+def mover_mouse_humano(destino):
+
+    try:
+        actual = Env.getMouseLocation()
+    except:
+        actual = Location(500,500)
+
+    pasos = random.randint(15,25)
+
+    for i in range(pasos):
+
+        curvaX = random.uniform(-6,6)
+        curvaY = random.uniform(-6,6)
+
+        x = actual.x + (destino.x-actual.x)*i/pasos + curvaX
+        y = actual.y + (destino.y-actual.y)*i/pasos + curvaY
+
+        mouseMove(Location(int(x),int(y)))
+
+        wait(random.uniform(0.01,0.04))
+
+# ---------- CLICK HUMANO ----------
+def click_humano(p):
+
+    mover_mouse_humano(p)
+
+    wait(random.uniform(0.15,0.35))
+
+    click(p)
+
+    micro_pausa()
+
+# ---------- CLICK DENTRO DE IMAGEN ----------
+def click_en_imagen(match):
+
+    r = match
+
+    margen = 8
+
+    x = random.randint(r.getX()+margen, r.getX()+r.getW()-margen)
+    y = random.randint(r.getY()+margen, r.getY()+r.getH()-margen)
+
+    destino = Location(x,y)
+
+    click_humano(destino)
+
+# ---------- BUSCAR Y CLICK EN IMAGEN ----------
+def buscar_y_click_imagen():
+
+    m = SCREEN.exists(patron,0.4)
+
+    if m:
+        print("Click en imagen")
+        click_en_imagen(m)
+        return True
+
+    m2 = SCREEN.exists(patron0,0.4)
+
+    if m2:
+        print("Click en imagen0")
+        click_en_imagen(m2)
+        return True
+
+    return False
+
+# ---------- ABRIR LINK EN NUEVA TAB ----------
+def abrir_link():
+
+    print("TAB no encontrada, abriendo link")
+
+    type("t", Key.CTRL)
+
+    wait(random.uniform(0.8,1.5))
+
+    type("https://ouo.io/rG8i4g")
+
+    wait(random.uniform(0.3,0.8))
+
+    type(Key.ENTER)
+
+    wait(random.uniform(3,5))
+
+# ---------- BUSCAR TAB ----------
+def buscar_tab():
+
+    m = SCREEN.exists(patronx,0.5)
+
+    if m:
+        print("Click en TAB")
+
+        click_humano(m.getTarget())
+
+        wait(random.uniform(1,2))
+
+        return True
+
+    else:
+        abrir_link()
+        return False
+
+# ---------- SCROLL HUMANO ----------
+def scroll_humano():
+
+    pasos = random.randint(2,7)
+
+    for i in range(pasos):
+
+        type(Key.DOWN)
+
+        wait(random.uniform(0.05,0.25))
+
+        if random.random() < 0.2:
+            wait(random.uniform(0.2,0.5))
+
+# ---------- CICLO PRINCIPAL ----------
+def ciclo():
+
+    while True:
+
+        pausa_larga()
+
+        encontrado = buscar_y_click_imagen()
+
+        if encontrado:
+
+            espera(1,2)
+
+        else:
+
+            scroll_humano()
+
+            espera(0.5,1.5)
+
+            buscar_tab()
+
+        micro_pausa()
+
+# ---------- INICIO ----------
+ciclo()
