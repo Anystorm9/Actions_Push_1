@@ -1,7 +1,7 @@
 name: Build and Deploy SikuliX Project
 
 # Este workddfsssgfgflow construye y ejecuta el contenedor ssDocker para el proyecto SikuliX
-# Se activa con cada pusssh a la rama main y con pull requests
+# Se activ33a con cada pusssh a la rama main y con pull requests
 
 on:
   push:

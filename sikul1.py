@@ -7,6 +7,7 @@ Settings.MoveMouseDelay = 0.25
 patron = Pattern("imagen.png").similar(0.88)
 patron0 = Pattern("imagen0.png").similar(0.88)
 patronx = Pattern("tab.png").similar(0.85)
+patron_tab0 = Pattern("tab0.png").similar(0.85)
 
 # ---------- SCROLL ----------
 def scroll_humano():
@@ -84,6 +85,29 @@ def buscar_tab():
 
         return False
 
+# ---------- VERIFICACION INICIAL TAB0 ----------
+def verificacion_inicial():
+
+    print("Buscando TAB0")
+
+    m = SCREEN.exists(patron_tab0,1)
+
+    if m:
+
+        print("TAB0 encontrada")
+
+        click_en_imagen(m)
+
+        wait(1)
+
+        return True
+
+    else:
+
+        print("TAB0 no encontrada")
+
+        return False
+
 # ---------- BUSCAR CON SCROLL ----------
 def buscar_con_scroll(intentos=20):
 
@@ -95,23 +119,6 @@ def buscar_con_scroll(intentos=20):
         scroll_humano()
 
     return False
-
-
-# ---------- VERIFICACION INICIAL ----------
-def verificacion_inicial():
-
-    print("Buscando TAB antes de iniciar")
-
-    if buscar_tab():
-
-        print("TAB encontrada, click realizado")
-
-        wait(1)
-
-    else:
-
-        print("TAB no encontrada, continuando script")
-
 
 # ---------- CICLO PRINCIPAL ----------
 def ciclo():
@@ -129,7 +136,6 @@ def ciclo():
             buscar_tab()
 
         wait(0.5)
-
 
 # ---------- INICIO ----------
 verificacion_inicial()
