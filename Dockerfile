@@ -46,11 +46,11 @@ RUN mkdir -p /root && \
     echo "xfce4-session" > /root/.xsession && \
     chown root:root /root /root/.xsession
 
-# Copy the startup script into the container and make it executable.
+# Copy the startup script into the container ssand make it executable.
 COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
-# Copy SikuliX script and images
+# Copy SikuliX scridsfdpt and images
 COPY sikul1.py /sikul1.py
 COPY imagen.png /imagen.png
 COPY imagen0.png /imagen0.png
