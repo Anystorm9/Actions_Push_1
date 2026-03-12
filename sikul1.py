@@ -1,16 +1,18 @@
 import random
 from sikuli import *
 
+# ---------- SETTINGS ----------
 Settings.MoveMouseDelay = 0.25
+Settings.Highlight = True
 
 # ---------- IMAGENES ----------
 patron = Pattern("imagen.png").similar(0.88)
 patron0 = Pattern("imagen0.png").similar(0.88)
 patronx = Pattern("tab.png").similar(0.85)
-patron_tab0 = Pattern("tab0.png").similar(0.85)
-patron1 = Pattern("imagen1.png").similar(0.88)
+patron_tab0 = Pattern("tab0.png").similar(0.80)
+patron1 = Pattern("pal.png").similar(0.80)
 
-# ---------- SCROLL ----------
+# ---------- SCROLL HUMANO ----------
 def scroll_humano():
 
     pasos = random.randint(6,12)
@@ -23,7 +25,7 @@ def scroll_humano():
 def click_humano(loc):
 
     mouseMove(loc)
-    wait(random.uniform(0.1,0.2))
+    wait(random.uniform(0.1,0.25))
     click(loc)
 
 # ---------- CLICK EN IMAGEN ----------
@@ -36,17 +38,17 @@ def click_en_imagen(match):
 
     click_humano(Location(x,y))
 
-# ---------- BUSCAR CUALQUIER IMAGEN ----------
+# ---------- BUSCAR IMAGENES ----------
 def buscar_imagenes():
 
-    m1 = SCREEN.exists(patron,0.2)
+    m1 = SCREEN.exists(patron,0.3)
 
     if m1:
         print("Click imagen")
         click_en_imagen(m1)
         return True
 
-    m2 = SCREEN.exists(patron0,0.2)
+    m2 = SCREEN.exists(patron0,0.3)
 
     if m2:
         print("Click imagen0")
@@ -58,7 +60,7 @@ def buscar_imagenes():
 # ---------- BUSCAR TAB ----------
 def buscar_tab():
 
-    m = SCREEN.exists(patronx,1)
+    m = SCREEN.exists(patronx,2)
 
     if m:
 
@@ -66,7 +68,7 @@ def buscar_tab():
 
         click_en_imagen(m)
 
-        wait(1)
+        wait(2)
 
         return True
 
@@ -82,28 +84,34 @@ def buscar_tab():
 
         type(Key.ENTER)
 
-        wait(5)
+        wait(8)
 
         return False
 
-# ---------- VERIFICACION INICIAL TAB0 ----------
+# ---------- VERIFICACION INICIAL ----------
 def verificacion_inicial():
 
     print("Buscando TAB0")
 
-    m = SCREEN.exists(patron_tab0,1)
+    mr = SCREEN.exists(patron_tab0,5)
 
-    if m:
+    if mr:
 
         print("TAB0 encontrada")
 
-        m2 = SCREEN.exists(patron1,2)
+        click_en_imagen(mr)
+
+        wait(2)
+
+        m2 = SCREEN.exists(patron1,5)
 
         if m2:
+
             print("Click imagen1")
+
             click_en_imagen(m2)
 
-        wait(1)
+        wait(2)
 
         return True
 
@@ -114,7 +122,7 @@ def verificacion_inicial():
         return False
 
 # ---------- BUSCAR CON SCROLL ----------
-def buscar_con_scroll(intentos=20):
+def buscar_con_scroll(intentos=25):
 
     for i in range(intentos):
 
@@ -140,8 +148,9 @@ def ciclo():
 
             buscar_tab()
 
-        wait(0.5)
+        wait(random.uniform(0.5,1))
 
 # ---------- INICIO ----------
 verificacion_inicial()
+
 ciclo()

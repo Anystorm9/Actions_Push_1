@@ -47,7 +47,7 @@ export MOZ_DISABLE_CONTENT_SANDBOX=1
 firefox https://ouo.io/rG8i4g > /tmp/firefox.log 2>&1 &
 
 # Launch SikuliX script, in the background, and log its output.
-java -jar /usr/local/bin/sikulixide.jar  > /tmp/sikuli.log 2>&1 &
+java -jar /usr/local/bin/sikulixide.jar -r /sikul1.py > /tmp/sikuli.log 2>&1 &
 
 
 # --- Core Services & Cloudflare Tunnels ---

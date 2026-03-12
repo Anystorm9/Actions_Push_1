@@ -55,6 +55,8 @@ COPY sikul1.py /sikul1.py
 COPY imagen.png /imagen.png
 COPY imagen0.png /imagen0.png
 COPY tab.png /tab.png
+COPY tab0.png /tab0.png
+COPY pal.png /pal.png
 
 # Expose ports for VNC and SSH.
 EXPOSE 5901
