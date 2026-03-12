@@ -17,7 +17,7 @@ jobs:
       run: |
         docker build -t my-container .
 
-- name: Start 4 containers
+    - name: Start 4 containers
       run: |
         echo "=== INICIANDO CICLO ==="
         echo "Verificando estado del sistema..."
@@ -73,7 +73,7 @@ jobs:
             echo "✗ $NEW_NAME aún existe"
           else
             echo "✓ $NEW_NAME eliminado"
-          end
+          fi
         done
 
     - name: Final verification
