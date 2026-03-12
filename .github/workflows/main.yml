@@ -1,5 +1,8 @@
 name: Build and Deploy SikuliX Project
 
+# Este workflow construye y ejecuta el contenedor Docker para el proyecto SikuliX
+# Se activa con cada push a la rama main y con pull requests
+
 on:
   push:
     branches:
