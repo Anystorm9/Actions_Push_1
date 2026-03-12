@@ -12,6 +12,15 @@ patronx = Pattern("tab.png").similar(0.85)
 patron_tab0 = Pattern("tab0.png").similar(0.80)
 patron1 = Pattern("pal.png").similar(0.80)
 
+# ---------- SCROLL HUMANO ----------
+def scroll_humano():
+
+    pasos = random.randint(6,12)
+
+    for i in range(pasos):
+        type(Key.DOWN)
+        wait(random.uniform(0.03,0.08))
+
 # ---------- CLICK HUMANO ----------
 def click_humano(loc):
 
@@ -32,37 +41,19 @@ def click_en_imagen(match):
 # ---------- BUSCAR IMAGENES ----------
 def buscar_imagenes():
 
-    m1 = SCREEN.exists(patron,0.6)
+    m1 = SCREEN.exists(patron,0.3)
 
     if m1:
         print("Click imagen")
         click_en_imagen(m1)
         return True
 
-    m2 = SCREEN.exists(patron0,0.6)
+    m2 = SCREEN.exists(patron0,0.3)
 
     if m2:
         print("Click imagen0")
         click_en_imagen(m2)
         return True
-
-    return False
-
-# ---------- SCROLL HUMANO ----------
-def scroll_humano():
-
-    pasos = random.randint(4,7)
-
-    for i in range(pasos):
-
-        type(Key.DOWN)
-
-        # pausa para que la pantalla se estabilice
-        wait(random.uniform(0.15,0.35))
-
-        # buscar imagen mientras baja
-        if buscar_imagenes():
-            return True
 
     return False
 
@@ -97,7 +88,7 @@ def buscar_tab():
 
         return False
 
-# ---------- VERIFICACION INICIAL ----------
+# ---------- VERsIFICACION INICIAL ----------
 def verificacion_inicial():
 
     print("Buscando TAB0")
@@ -138,13 +129,7 @@ def buscar_con_scroll(intentos=25):
         if buscar_imagenes():
             return True
 
-        encontrado_scroll = scroll_humano()
-
-        if encontrado_scroll:
-            return True
-
-        # pausa para que Sikuli procese
-        wait(random.uniform(0.3,0.6))
+        scroll_humano()
 
     return False
 
