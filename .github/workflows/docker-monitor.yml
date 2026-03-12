@@ -17,28 +17,75 @@ jobs:
       run: |
         docker build -t my-container .
 
-    - name: Start 4 containers
+- name: Start 4 containers
       run: |
+        echo "=== INICIANDO CICLO ==="
+        echo "Verificando estado del sistema..."
+        docker info
+        echo "Construyendo imagen Docker..."
+        docker build -t my-container .
+
+        echo "Iniciando 4 contenedores..."
         for i in {1..4}; do
           NEW_NAME="container-$i"
+          echo "Iniciando contenedor $NEW_NAME en puertos 590$i (VNC) y 22$i (SSH)"
           docker run -d --name $NEW_NAME -p 590$i:5901 -p 22$i:22 my-container
-          echo "Iniciado $NEW_NAME"
+          sleep 2  # Esperar un poco entre cada contenedor
+        done
+
+        echo "Verificando que los contenedores se iniciaron correctamente..."
+        for i in {1..4}; do
+          NEW_NAME="container-$i"
+          CONTAINER_STATUS=$(docker inspect --format='{{.State.Status}}' $NEW_NAME 2>/dev/null || echo "not found")
+          if [ "$CONTAINER_STATUS" = "running" ]; then
+            echo "✓ $NEW_NAME está corriendo"
+          else
+            echo "✗ $NEW_NAME no se inició correctamente"
+          fi
         done
 
     - name: Wait 6 minutes
       run: |
-        echo "Esperando 6 minutos antes de detener los contenedores"
+        echo "Esperando 6 minutos (360 segundos) antes de detener los contenedores..."
+        for i in {1..4}; do
+          NEW_NAME="container-$i"
+          echo "Contenedor $NEW_NAME corriendo..."
+        done
         sleep 360
 
     - name: Stop containers
       run: |
+        echo "Deteniendo y eliminando los contenedores..."
         for i in {1..4}; do
           NEW_NAME="container-$i"
+          echo "Deteniendo $NEW_NAME..."
           docker stop $NEW_NAME || true
+          echo "Eliminando $NEW_NAME..."
           docker rm $NEW_NAME || true
         done
+
+    - name: Verify cleanup
+      run: |
+        echo "Verificando que los contenedores fueron eliminados..."
+        for i in {1..4}; do
+          NEW_NAME="container-$i"
+          if docker ps -a --format '{{.Names}}' | grep -q "^$NEW_NAME$"; then
+            echo "✗ $NEW_NAME aún existe"
+          else
+            echo "✓ $NEW_NAME eliminado"
+          end
+        done
+
+    - name: Final verification
+      run: |
+        echo "=== FIN DEL CICLO ==="
+        echo "Verificando estado final del sistema..."
+        docker info
+        echo "Contenedores activos:"
+        docker ps -a
 
     - name: Cleanup
       if: always()
       run: |
+        echo "Ejecutando limpieza final..."
         docker system prune -f
