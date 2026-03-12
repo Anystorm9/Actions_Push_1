@@ -5,6 +5,9 @@ from sikuli import *
 Settings.MoveMouseDelay = 0.25
 Settings.Highlight = True
 
+# ---------- CONTADOR DE FALLOS ----------
+fallos_ciclos = 0
+
 # ---------- IMAGENES ----------
 patron = Pattern("imagen.png").similar(0.88)
 patron0 = Pattern("imagen0.png").similar(0.88)
@@ -15,11 +18,11 @@ patron1 = Pattern("pal.png").similar(0.80)
 # ---------- SCROLL HUMANO ----------
 def scroll_humano():
 
-    pasos = random.randint(6,12)
+    pasos = random.randint(4,8)
 
     for i in range(pasos):
         type(Key.DOWN)
-        wait(random.uniform(0.03,0.08))
+        wait(random.uniform(0.08,0.18))
 
 # ---------- CLICK HUMANO ----------
 def click_humano(loc):
@@ -88,7 +91,7 @@ def buscar_tab():
 
         return False
 
-# ---------- VERsIFICACION INICIAL ----------
+# ---------- VERIFICACION INICIAL ----------
 def verificacion_inicial():
 
     print("Buscando TAB0")
@@ -136,6 +139,8 @@ def buscar_con_scroll(intentos=25):
 # ---------- CICLO PRINCIPAL ----------
 def ciclo():
 
+    global fallos_ciclos
+
     while True:
 
         print("Buscando imagen o imagen0")
@@ -144,11 +149,30 @@ def ciclo():
 
         if not encontrado:
 
-            print("No se encontraron imagenes")
+            fallos_ciclos += 1
+            print("No se encontraron imagenes. Fallo:", fallos_ciclos)
 
-            buscar_tab()
+            if fallos_ciclos >= 2:
 
-        wait(random.uniform(0.5,1))
+                print("2 ciclos sin encontrar. Abriendo URL")
+
+                type("t", Key.CTRL)
+
+                wait(0.5)
+
+                paste("https://ouo.io/rG8i4g")
+
+                type(Key.ENTER)
+
+                wait(8)
+
+                fallos_ciclos = 0
+
+        else:
+
+            fallos_ciclos = 0
+
+        wait(random.uniform(0.8,1.5))
 
 # ---------- INICIO ----------
 verificacion_inicial()
