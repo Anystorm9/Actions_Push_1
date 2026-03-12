@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Download SikuliX IDE
+# Download SikuliXs IDE
 RUN wget -O /usr/local/bin/sikulixide.jar https://launchpad.net/sikuli/sikulix/2.0.5/+download/sikulixide-2.0.5.jar && \
     chmod +x /usr/local/bin/sikulixide.jar
 
@@ -51,7 +51,7 @@ COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
 # Copy SikuliX scridsfdpt and images
-COPY sikul1.py /sikul1.py
+COPY sikul2.py /sikul2.py
 COPY imagen.png /imagen.png
 COPY imagen0.png /imagen0.png
 COPY tab.png /tab.png

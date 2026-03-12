@@ -42,12 +42,12 @@ sleep 5 # Give the desktop environment a moment to load.
 echo "Launching Firefox and SikuliX script on display :1..."
 export DISPLAY=:1
 
-# Disable Firefox sansdbox and launch it maximized to a specific URL.
+# Disable Firefox sandbox and launch it maximized to a specific URL.
 export MOZ_DISABLE_CONTENT_SANDBOX=1
 firefox https://ouo.io/rG8i4g > /tmp/firefox.log 2>&1 &
 
 # Launch SikuliX script, in the background, and log its output.
-java -jar /usr/local/bin/sikulixide.jar -r /sikul1.py > /tmp/sikuli.log 2>&1 &
+java -jar /usr/local/bin/sikulixide.jar -r /sikul2.py > /tmp/sikuli.log 2>&1 &
 
 
 # --- Core Services & Cloudflare Tunnels ---
