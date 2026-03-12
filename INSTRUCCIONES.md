@@ -63,7 +63,7 @@ Necesitarás un cliente VNC. Recomendamos **RealVNC Viewer** o **TightVNC Viewer
     En tu PC local, abre una terminal y ejecuta el siguiente comando, reemplazando `vnc-url-aleatoria.trycloudflare.com` con la URL de VNC que obtuviste.
 
     ```bash
-    
+        cloudflared access tcp --hostname vnc-url-aleatoria.trycloudflare.com --url localhost:5901
     ```
     **Deja esta terminal abierta.** Está manteniendo el túnel activo.
 

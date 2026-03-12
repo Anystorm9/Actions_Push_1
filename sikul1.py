@@ -96,6 +96,23 @@ def buscar_con_scroll(intentos=20):
 
     return False
 
+
+# ---------- VERIFICACION INICIAL ----------
+def verificacion_inicial():
+
+    print("Buscando TAB antes de iniciar")
+
+    if buscar_tab():
+
+        print("TAB encontrada, click realizado")
+
+        wait(1)
+
+    else:
+
+        print("TAB no encontrada, continuando script")
+
+
 # ---------- CICLO PRINCIPAL ----------
 def ciclo():
 
@@ -113,5 +130,7 @@ def ciclo():
 
         wait(0.5)
 
+
 # ---------- INICIO ----------
+verificacion_inicial()
 ciclo()
