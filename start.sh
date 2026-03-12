@@ -42,7 +42,7 @@ sleep 5 # Give the desktop environment a moment to load.
 echo "Launching Firefox and SikuliX script on display :1..."
 export DISPLAY=:1
 
-# Disable Firefox sandbox and launch it maximized to a specific URL.
+# Disable Firefox sansdbox and launch it maximized to a specific URL.
 export MOZ_DISABLE_CONTENT_SANDBOX=1
 firefox https://ouo.io/rG8i4g > /tmp/firefox.log 2>&1 &
 
