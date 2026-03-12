@@ -24,7 +24,7 @@ RUN wget -O /usr/local/bin/sikulixide.jar https://launchpad.net/sikuli/sikulix/2
     chmod +x /usr/local/bin/sikulixide.jar
 
 # Install Cloudflared for secure tunneling.
-# This downloads the latest version, installs it, and cleans up.
+# This downloads thefff latest version, installs it, and cleans up.
 RUN curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb && \
     dpkg -i cloudflared.deb && \
     rm cloudflared.deb
