@@ -85,7 +85,7 @@ def buscar_tab():
 
         return False
 
-# ---------- VERIFICACION sINICIAL TAB0 ----------
+# ---------- VERIFICAsdsCIddddON sINICIAL TAB0 ----------
 def verificacion_inicial():
 
     print("Buscando TAB0")
