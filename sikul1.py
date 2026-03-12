@@ -8,6 +8,7 @@ patron = Pattern("imagen.png").similar(0.88)
 patron0 = Pattern("imagen0.png").similar(0.88)
 patronx = Pattern("tab.png").similar(0.85)
 patron_tab0 = Pattern("tab0.png").similar(0.85)
+patron1 = Pattern("imagen1.png").similar(0.88)
 
 # ---------- SCROLL ----------
 def scroll_humano():
@@ -63,7 +64,7 @@ def buscar_tab():
 
         print("Click TAB")
 
-        click_humano(m.getTarget())
+        click_en_imagen(m)
 
         wait(1)
 
@@ -85,7 +86,7 @@ def buscar_tab():
 
         return False
 
-# ---------- VERIFICAsdsCIddddON sINICIAL TAB0 ----------
+# ---------- VERIFICACION INICIAL TAB0 ----------
 def verificacion_inicial():
 
     print("Buscando TAB0")
@@ -96,8 +97,11 @@ def verificacion_inicial():
 
         print("TAB0 encontrada")
 
-        # CAMBIA ESTAS COORDENADAS
-        click_humano(Location(500,400))
+        m2 = SCREEN.exists(patron1,2)
+
+        if m2:
+            print("Click imagen1")
+            click_en_imagen(m2)
 
         wait(1)
 
@@ -121,7 +125,7 @@ def buscar_con_scroll(intentos=20):
 
     return False
 
-# ---------- CICLO PRIsNCIPAL ----------
+# ---------- CICLO PRINCIPAL ----------
 def ciclo():
 
     while True:
