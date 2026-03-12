@@ -96,7 +96,8 @@ def verificacion_inicial():
 
         print("TAB0 encontrada")
 
-        click_en_imagen(m)
+        # CAMBIA ESTAS COORDENADAS
+        click_humano(Location(500,400))
 
         wait(1)
 
