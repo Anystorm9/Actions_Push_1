@@ -1,7 +1,7 @@
 # Base Image: Use Debian Bullseye for a stable and common base.
 FROM debian:bullseye
 
-# Install necessary packages for XFCE, SSH, VNC, and tunneling.
+# Install necessary packages for XFCE, SSH, VNC, and tunneling.1
 # We use --no-install-recommends to keep the image slim.
 # xfonts-base is CRITICAL: It provides the 'fixed' font that VNC server needs.
 RUN apt-get update && apt-get install -y --no-install-recommends \
