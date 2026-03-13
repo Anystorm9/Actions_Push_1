@@ -1,4 +1,4 @@
-name: Docker Container Monitor
+name: Docker Container Monitor 1
 
 on:
   push:
