@@ -3,8 +3,8 @@ name: Docker Container Monitor
 on:
   push:
     branches: [ main ]
-#  schedule:
-#    - cron: '*/6 * * * *'  # Ejecuta cada 6 minutos
+  schedule:
+    - cron: '*/6 * * * *'  # Ejecuta cada 6 minutos
 
 jobs:
   monitor:
