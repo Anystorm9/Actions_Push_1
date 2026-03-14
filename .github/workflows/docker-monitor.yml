@@ -43,5 +43,4 @@ jobs:
       run: |
         docker system prune -f
 
-    # Added comment for better documentation
-    # Improved workflow documentation
+    # 2
