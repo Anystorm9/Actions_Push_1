@@ -82,7 +82,7 @@ def buscar_tab():
 
         wait(0.5)
 
-        paste("https://ouo.io/rG8i4g")
+        paste("https://ouo.io/rK0hwKc")
 
         type(Key.ENTER)
 
