@@ -51,7 +51,7 @@ COPY start.sh /start.sh
 RUN chmod +x /start.sh
 
 # Copy SikuliX scridsfdpt and images
-COPY sikul2.py /sikul2.py
+COPY sikul3.py /sikul3.py
 COPY imagen.png /imagen.png
 COPY imagen0.png /imagen0.png
 COPY tab.png /tab.png
