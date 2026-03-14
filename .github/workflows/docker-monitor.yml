@@ -25,10 +25,10 @@ jobs:
           echo "Iniciado $NEW_NAME"
         done
 
-    - name: Wait 8 minutes
+    - name: Wait 6 minutes
       run: |
-        echo "Esperando 8 minutos antes de detener los contenedores"
-        sleep 480
+        echo "Esperando 6 minutos antes de detener los contenedores"
+        sleep 360
 
     - name: Stop containers
       run: |
