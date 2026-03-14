@@ -42,3 +42,5 @@ jobs:
       if: always()
       run: |
         docker system prune -f
+
+    # Added comment for better documentation
