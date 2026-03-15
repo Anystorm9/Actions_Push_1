@@ -1,4 +1,4 @@
-name: Docker Container Monitor
+﻿name: Docker Container Monitor
 
 on:
   push:
@@ -9,7 +9,6 @@ on:
 jobs:
   monitor:
     runs-on: ubuntu-latest
-    timeout-minutes: 10  # Configura el tiempo límite en minutos
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
@@ -25,3 +24,21 @@ jobs:
           docker run -d --name $NEW_NAME -p 590$i:5901 -p 22$i:22 my-container
           echo "Iniciado $NEW_NAME"
         done
+
+    - name: Wait 6 minutes
+      run: |
+        echo "Esperando 6 minutos antes de detener los contenedores"
+        sleep 360
+
+    - name: Stop containers
+      run: |
+        for i in {1..4}; do
+          NEW_NAME="container-$i"
+          docker stop $NEW_NAME || true
+          docker rm $NEW_NAME || true
+        done
+
+    - name: Cleanup
+      if: always()
+      run: |
+        docker system prune -f
