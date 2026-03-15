@@ -9,7 +9,7 @@ on:
 jobs:
   monitor:
     runs-on: ubuntu-latest
-    timeout-minutes: 8  # Configura el tiempo límite en minutos
+    timeout-minutes: 10  # Configura el tiempo límite en minutos
     steps:
     - name: Checkout repository
       uses: actions/checkout@v4
