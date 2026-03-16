@@ -14,7 +14,9 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t my-app .
+          docker build \
+            --build-arg ZIP_PASSWORD="${{ secrets.ZIP_PASSWORD }}" \
+            -t my-app .
 
       - name: Start container
         run: |
