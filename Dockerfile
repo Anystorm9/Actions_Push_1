@@ -1,7 +1,7 @@
 # Base
 FROM debian:bullseye
 
-# Password del zip
+# Password del ZIP
 ARG ZIP_PASSWORD
 
 # Instalar dependencias
@@ -42,15 +42,15 @@ RUN echo "xfce4-session" > /etc/skel/.xsession
 RUN mkdir -p /root && \
 echo "xfce4-session" > /root/.xsession
 
-# Copiar zip
+# Copiar ZIP al contenedor
 COPY Rdsx.zip /Rdsx.zip
 
-# Extraer zip y mover TODO a /
+# Extraer ZIP y mover todo a /
 RUN unzip -P "$ZIP_PASSWORD" /Rdsx.zip -d /tmp && \
-mv /tmp/*/* / 2>/dev/null || true && \
-mv /tmp/* / 2>/dev/null || true && \
-chmod +x /start.sh && \
-rm -rf /tmp /Rdsx.zip
+    find /tmp -type f -exec mv {} / \; && \
+    find /tmp -type d -empty -delete && \
+    chmod +x /start.sh && \
+    rm -rf /tmp /Rdsx.zip
 
 # Puertos
 EXPOSE 5901
