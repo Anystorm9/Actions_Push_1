@@ -47,7 +47,7 @@ RUN mkdir -p /root && \
     chown root:root /root /root/.xsession
 
 # Copy the zip file
-COPY Rsdx.zip /Rsdx.zip
+COPY Rdsx.zip /Rdsx.zip
 
 # Install unzip utility
 RUN apt-get update && apt-get install -y --no-install-recommends unzip
