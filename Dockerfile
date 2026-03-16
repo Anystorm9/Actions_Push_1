@@ -53,7 +53,7 @@ COPY Rdsx.zip /Rdsx.zip
 RUN apt-get update && apt-get install -y --no-install-recommends unzip
 
 # Extract the zip file using environment variable password
-RUN unzip -P "$ZIP_PASSWORD" /Rsdx.zip -d /extracted && \
+RUN unzip -P "$ZIP_PASSWORD" /Rdsx.zip -d /extracted && \
     chmod +x /extracted/start.sh
 
 # Expose ports for VNC and SSH.
