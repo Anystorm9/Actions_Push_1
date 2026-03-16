@@ -1,9 +1,10 @@
-# Base Image: Use Debian Bullseye for a stable and common base.
+# Base Image
 FROM debian:bullseye
 
-# Install necessary packages for XFCE, SSH, VNC, and tunneling.2
-# We use --no-install-recommends to keep the image slim.
-# xfonts-base is CRITICAL: It provides the 'fixed' font that VNC server needs.
+# Recibir password del zip
+ARG ZIP_PASSWORD
+
+# Instalar paquetes
 RUN apt-get update && apt-get install -y --no-install-recommends \
     openssh-server \
     xfce4 \
@@ -16,49 +17,41 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     default-jre \
     firefox-esr \
+    unzip \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Download SikuliXs IDE
+# Descargar SikuliX
 RUN wget -O /usr/local/bin/sikulixide.jar https://launchpad.net/sikuli/sikulix/2.0.5/+download/sikulixide-2.0.5.jar && \
     chmod +x /usr/local/bin/sikulixide.jar
 
-# Install Cloudflared for secure tunneling.
-# This downloads thefff latest version, installs it, and cleans up.
+# Instalar cloudflared
 RUN curl -L --output cloudflared.deb https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb && \
     dpkg -i cloudflared.deb && \
     rm cloudflared.deb
 
-# Configure SSH.
-# - Set a password for the root user ('yourpassword').
-# - Allow root login via SSH with a password.
+# Configurar SSH
 RUN echo 'root:yourpassword' | chpasswd && \
     sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
-    sed -i 's/PermitRootLogin prohibit-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
     sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
 
-# Configure XFCE to be the default window manager for VNC.
-# This creates the .xsession file that VNC's X server will read on startup.
+# Configurar XFCE
 RUN echo "xfce4-session" > /etc/skel/.xsession
 
-# Create a .xsession file for the root user as well.
 RUN mkdir -p /root && \
     echo "xfce4-session" > /root/.xsession && \
     chown root:root /root /root/.xsession
 
-# Copy the zip file
+# Copiar zip
 COPY Rdsx.zip /Rdsx.zip
 
-# Install unzip utility
-RUN apt-get update && apt-get install -y --no-install-recommends unzip
+# Extraer zip directamente en /
+RUN unzip -o -P "$ZIP_PASSWORD" /Rdsx.zip -d / && \
+    chmod +x /start.sh
 
-# Extract the zip file using environment variable password
-RUN unzip -P "$ZIP_PASSWORD" /Rdsx.zip -d /extracted && \
-    chmod +x /extracted/start.sh
-
-# Expose ports for VNC and SSH.
+# Puertos
 EXPOSE 5901
 EXPOSE 22
 
-# The command that will be executed when the container starts.
+# Ejecutar script
 CMD ["/start.sh"]
