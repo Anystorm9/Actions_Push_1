@@ -1,10 +1,8 @@
 # Base
 FROM debian:bullseye
 
-# Password del ZIP
 ARG ZIP_PASSWORD
 
-# Instalar dependencias
 RUN apt-get update && apt-get install -y --no-install-recommends \
     openssh-server \
     xfce4 \
@@ -38,23 +36,18 @@ sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd
 
 # Configurar XFCE
 RUN echo "xfce4-session" > /etc/skel/.xsession
+RUN mkdir -p /root && echo "xfce4-session" > /root/.xsession
 
-RUN mkdir -p /root && \
-echo "xfce4-session" > /root/.xsession
-
-# Copiar ZIP al contenedor
+# Copiar ZIP
 COPY Rdsx.zip /Rdsx.zip
 
-# Extraer ZIP y mover todo a /
-RUN unzip -P "$ZIP_PASSWORD" /Rdsx.zip -d /tmp && \
-    find /tmp -type f -exec mv {} / \; && \
-    find /tmp -type d -empty -delete && \
-    chmod +x /start.sh && \
-    rm -rf /tmp /Rdsx.zip
+# Extraer directamente en /
+RUN unzip -o -P "$ZIP_PASSWORD" /Rdsx.zip -d / && \
+    find /Rdsx -type f -exec mv {} / \; && \
+    rm -rf /Rdsx /Rdsx.zip && \
+    chmod +x /start.sh
 
-# Puertos
 EXPOSE 5901
 EXPOSE 22
 
-# Ejecutar script
 CMD ["/start.sh"]
