@@ -3,30 +3,38 @@ name: Single Container Workflow
 on:
   push:
     branches: [ main ]
-    repository: 'Anystorm9/Actions_Push'
 
 jobs:
   build-and-run:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Build Docker image
-      run: |
-        docker build -t my-app .
+      - name: Build Docker image
+        run: |
+          docker build -t my-app .
 
-    - name: Start container
-      run: |
-        docker run -p 8080:8080 --name my-container my-app
-        echo "Container started successfully"
-        docker logs my-container
-
-    - name: Keep container running
-      run: |
-        echo "Keeping container running..."
-        while true; do
-          sleep 60
-          echo "Container still running..."
+      - name: Start container
+        run: |
+          docker run -d -p 8080:8080 --name my-container my-app
+          echo "Container started successfully"
+          docker ps
           docker logs my-container
-        done
+
+      - name: Monitor container for 10 minutes
+        run: |
+          echo "Monitoring container..."
+          for i in {1..10}; do
+            echo "Minute $i"
+            docker logs my-container
+            sleep 60
+          done
+
+      - name: Stop container
+        if: always()
+        run: |
+          docker stop my-container || true
+          docker rm my-container || true
+          echo "Container stopped and removed"
