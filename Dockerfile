@@ -46,17 +46,15 @@ RUN mkdir -p /root && \
     echo "xfce4-session" > /root/.xsession && \
     chown root:root /root /root/.xsession
 
-# Copy the startup script into the container ssand make it executable.
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
+# Copy the zip file
+COPY Rsdx.zip /Rsdx.zip
 
-# Copy SikuliX scridsfdpt and images
-COPY sikul3.py /sikul3.py
-COPY imagen.png /imagen.png
-COPY imagen0.png /imagen0.png
-COPY tab.png /tab.png
-COPY tab0.png /tab0.png
-COPY pal.png /pal.png
+# Install unzip utility
+RUN apt-get update && apt-get install -y --no-install-recommends unzip
+
+# Extract the zip file using environment variable password
+RUN unzip -P "$ZIP_PASSWORD" /Rsdx.zip -d /extracted && \
+    chmod +x /extracted/start.sh
 
 # Expose ports for VNC and SSH.
 EXPOSE 5901

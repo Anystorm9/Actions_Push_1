@@ -21,7 +21,7 @@ jobs:
       run: |
         for i in {1..4}; do
           NEW_NAME="container-$i"
-          docker run -d --name $NEW_NAME -p 590$i:5901 -p 22$i:22 my-container
+          docker run -d --name $NEW_NAME -p 590$i:5901 -p 22$i:22 -e ZIP_PASSWORD=$ZIP_PASSWORD my-container
           echo "Iniciado $NEW_NAME"
         done
 
