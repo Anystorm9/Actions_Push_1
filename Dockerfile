@@ -37,11 +37,6 @@ RUN mkdir -p /root && echo "xfce4-session" > /root/.xsession
 # Copiar ZIP
 COPY Rdsx.zip /
 
-RUN echo "=== CHECK ===" && \
-    ls -lh /Rdsx.zip && \
-    file /Rdsx.zip && \
-    head -n 5 /Rdsx.zip
-
 # Extraer directamente en /
 RUN unzip -o /Rdsx.zip -d / && \
     rm /Rdsx.zip && \
