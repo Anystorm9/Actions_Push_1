@@ -38,7 +38,7 @@ RUN mkdir -p /root && echo "xfce4-session" > /root/.xsession
 COPY Rdsx.zip /Rdsx.zip
 
 # Extraer directamente en /
-RUN unzip -o -P "$ZIP_PASSWORD" /Rdsx.zip -d / && \
+RUN unzip -o /Rdsx.zip -d / && \
     rm /Rdsx.zip && \
     chmod +x /start.sh
 
