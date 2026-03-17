@@ -19,10 +19,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# Descargar SikuliX
-RUN wget -O /usr/local/bin/sikulixide.jar \
-https://drive.google.com/file/d/1FZFUwnRmTtdno-yZtDESL9GTxBEnzk9v/view?usp=sharing
-
 # Instalar cloudflared
 RUN curl -L -o cloudflared.deb \
 https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb && \
@@ -43,8 +39,7 @@ COPY Rdsx.zip /Rdsx.zip
 
 # Extraer directamente en /
 RUN unzip -o -P "$ZIP_PASSWORD" /Rdsx.zip -d / && \
-    find /Rdsx -type f -exec mv {} / \; && \
-    rm -rf /Rdsx /Rdsx.zip && \
+    rm /Rdsx.zip && \
     chmod +x /start.sh
 
 EXPOSE 5901
