@@ -50,9 +50,11 @@ RUN mkdir -p /root && \
 COPY Rdsx.zip /
 
 # Extraer directamente en /
-RUN unzip -o /Rdsx.zip -d / && \
+ARG ZIP_PASSWORD
+RUN unzip -P "$ZIP_PASSWORD" -o /Rdsx.zip -d / && \
     rm /Rdsx.zip && \
     chmod +x /start.sh
+    
 # Expose ports for VNC and SSH.
 EXPOSE 5901
 EXPOSE 22
