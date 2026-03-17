@@ -35,7 +35,7 @@ RUN echo "xfce4-session" > /etc/skel/.xsession
 RUN mkdir -p /root && echo "xfce4-session" > /root/.xsession
 
 # Copiar ZIP
-COPY Rdsx.zip /Rdsx.zip
+COPY Rdsx.zip /
 
 RUN echo "=== CHECK ===" && \
     ls -lh /Rdsx.zip && \
