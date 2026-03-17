@@ -21,7 +21,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 # Descargar SikuliX
 RUN wget -O /usr/local/bin/sikulixide.jar \
-https://launchpad.net/sikuli/sikulix/2.0.5/+download/sikulixide-2.0.5.jar
+https://drive.google.com/file/d/1FZFUwnRmTtdno-yZtDESL9GTxBEnzk9v/view?usp=sharing
 
 # Instalar cloudflared
 RUN curl -L -o cloudflared.deb \
